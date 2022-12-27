@@ -10,3 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Events {
+    id Int @id @default(autoincrement())
+    startDate DateTime
+    endDate DateTime
+    title String
+    code Int
+    attendees User[]
+}
+
+model User {
+    id Int @id @default(autoincrement())
+    firstName String
+    lastName String
+    email String
+    eventsAttended Events[]
+}
