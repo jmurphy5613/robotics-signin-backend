@@ -1,6 +1,7 @@
 import Hapi from '@hapi/hapi'
 import prismaPlugin from './plugins/prisma'
 import usersPlugin from './plugins/users'
+import eventsPlugin from './plugins/events'
 
 const server: Hapi.Server = Hapi.server({
     port: process.env.PORT || 3001,
@@ -9,7 +10,7 @@ const server: Hapi.Server = Hapi.server({
 
 const start = async ():Promise<Hapi.Server> => {
     await server.start()
-    await server.register([prismaPlugin, usersPlugin])
+    await server.register([prismaPlugin, usersPlugin, eventsPlugin])
     
     console.log(`server running on port ${server.info.uri}`)
 
