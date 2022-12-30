@@ -15,7 +15,7 @@ const usersPlugin = {
                 method: 'POST',
                 path: '/users/create',
                 handler: createUserHandler
-            }
+            },
         ])
     }
 }

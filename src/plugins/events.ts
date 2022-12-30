@@ -1,5 +1,10 @@
 import Boom from '@hapi/boom'
-import Hapi, { server } from '@hapi/hapi'
+import Hapi from '@hapi/hapi'
+
+//validator imports
+import { AddEventValidator } from '../utils/validators'
+//interface imports
+import { AddEvent } from '../utils/interfaces'
 
 const eventsPlugin = {
     name: 'app/events',
@@ -14,7 +19,13 @@ const eventsPlugin = {
             {
                 method: 'POST',
                 path: '/events/create',
-                handler: createEventHandler
+                handler: createEventHandler,
+                options: {
+                    validate: {
+                        payload: AddEventValidator
+                    }
+                }
+
             }
         ])
     }
@@ -34,15 +45,15 @@ const getAllEventsHandler = async (req: Hapi.Request, res: Hapi.ResponseToolkit)
 
 const createEventHandler = async (req: Hapi.Request, res: Hapi.ResponseToolkit) => {
     const { prisma } = req.server.app
-    const body = req.headers
-
+    const payload = req.payload as AddEvent
+    console.log(payload)
     try {
         const event = await prisma.events.create({
             data: {
-                startDate: body.startDate,
-                endDate: body.endDate,
-                title: body.title,
-                code: body.code
+                startDate: payload.startDate,
+                endDate: payload.endDate,
+                title: payload.title,
+                code: payload.code
             }
         })
         return res.response(event).code(200)
