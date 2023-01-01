@@ -2,7 +2,7 @@ import Boom from '@hapi/boom'
 import Hapi from '@hapi/hapi'
 
 //validator imports
-import { AddEventValidator, AddUserValidator } from '../utils/validators'
+import { AddUserValidator } from '../utils/validators'
 //interface imports
 import { AddUser } from '../utils/interfaces'
 
@@ -21,9 +21,16 @@ const usersPlugin = {
                 path: '/users/create',
                 handler: createUserHandler,
                 options: {
-                    validate: AddEventValidator
+                    validate: {
+                        payload: AddUserValidator
+                    }
                 }
             },
+            {
+                method: 'GET',
+                path: '/users/get-by-email/{email}',
+                handler: getUserByEmail
+            }
         ])
     }
 }
@@ -56,6 +63,22 @@ const createUserHandler = async (req: Hapi.Request, res: Hapi.ResponseToolkit) =
     } catch(err) {
         console.log(err)
         return Boom.badImplementation("could not create user")
+    }
+}
+
+const getUserByEmail = async (req: Hapi.Request, res: Hapi.ResponseToolkit) => {
+    const { prisma } = req.server.app
+    const email = req.params.email
+
+    try {
+        const user = await prisma.user.findFirst({ where: { email: email } })
+        if(!user) {
+            return res.response({ message: "user doesn't exist" })
+        }
+        return res.response(user).code(200)
+    } catch(err) {
+        console.log(err)
+        return Boom.badImplementation("can't find user")
     }
 }
 

@@ -35,6 +35,7 @@ const eventsPlugin = {
             {
                 method: 'POST',
                 path: '/events/register-by-id/{id}',
+                handler: registerForEventById
             }
         ])
     }
