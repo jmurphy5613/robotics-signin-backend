@@ -31,6 +31,10 @@ const eventsPlugin = {
                 method: 'GET',
                 path: '/events/get-by-id/{id}',
                 handler: getEventById
+            },
+            {
+                method: 'POST',
+                path: '/events/register-by-id/{id}',
             }
         ])
     }
@@ -79,6 +83,10 @@ const getEventById = async (req: Hapi.Request, res: Hapi.ResponseToolkit) => {
         console.log(err)
         return Boom.badImplementation("could not get that event")
     }
+}
+
+const registerForEventById = async (req: Hapi.Request, res: Hapi.ResponseToolkit) => {
+
 }
 
 
