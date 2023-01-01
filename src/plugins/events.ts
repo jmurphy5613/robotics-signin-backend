@@ -26,6 +26,11 @@ const eventsPlugin = {
                     }
                 }
 
+            },
+            {
+                method: 'GET',
+                path: '/events/get-by-id/{id}',
+                handler: getEventById
             }
         ])
     }
@@ -60,6 +65,19 @@ const createEventHandler = async (req: Hapi.Request, res: Hapi.ResponseToolkit) 
     } catch (err) {
         console.log(err)
         return Boom.badImplementation("could not create event")
+    }
+}
+
+const getEventById = async (req: Hapi.Request, res: Hapi.ResponseToolkit) => {
+    const { prisma } = req.server.app
+    const id = JSON.parse(req.params.id)
+
+    try {
+        const event = await prisma.events.findFirstOrThrow({ where: { id: id } })
+        return res.response(event).code(200)
+    } catch (err) {
+        console.log(err)
+        return Boom.badImplementation("could not get that event")
     }
 }
 
