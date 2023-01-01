@@ -30,6 +30,11 @@ const usersPlugin = {
                 method: 'GET',
                 path: '/users/get-by-email/{email}',
                 handler: getUserByEmail
+            },
+            {
+                method: 'POST',
+                path: '/users/register-by-ids/{userId}/{eventId}',
+                handler: registerForEventByIds
             }
         ])
     }
@@ -79,6 +84,29 @@ const getUserByEmail = async (req: Hapi.Request, res: Hapi.ResponseToolkit) => {
     } catch(err) {
         console.log(err)
         return Boom.badImplementation("can't find user")
+    }
+}
+
+const registerForEventByIds = async (req: Hapi.Request, res: Hapi.ResponseToolkit) => {
+    const { prisma } = req.server.app
+    const eventId = req.params.eventId
+    const userId = req.params.userId
+
+    try {
+        await prisma.user.update({
+            where: { id: userId },
+            data: {
+                eventsAttended: {
+                    connect: {
+                        id: eventId
+                    }
+                }
+            }
+        })
+        res.response().code(200)
+    } catch(err) {
+        console.log(err)
+        return Boom.badImplementation("could not register for event")
     }
 }
 
