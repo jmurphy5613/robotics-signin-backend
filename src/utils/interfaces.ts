@@ -3,4 +3,5 @@ export interface AddEvent {
     endDate: Date,
     title: string,
     code: number,
+    description: string
 }

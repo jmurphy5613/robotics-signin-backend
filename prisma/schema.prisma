@@ -16,6 +16,7 @@ model Events {
     endDate DateTime
     title String
     code Int
+    description String
     attendees User[]
 }
 

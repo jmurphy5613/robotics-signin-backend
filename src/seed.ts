@@ -9,23 +9,23 @@ async function main() {
 
     const today = new Date()
 
-    const createUserAndEvents = await prisma.user.create({
-        data: {
-            firstName: "john",
-            lastName: "murphy",
-            email: "jmurphy5613@gmail.com",
-            eventsAttended: {
-                create: [
-                    {
-                        startDate: today,
-                        endDate: today,
-                        title: "Robotics Meeting",
-                        code: 11111
-                    }
-                ]
-            }
-        }
-    })
+    // const createUserAndEvents = await prisma.user.create({
+    //     data: {
+    //         firstName: "john",
+    //         lastName: "murphy",
+    //         email: "jmurphy5613@gmail.com",
+    //         eventsAttended: {
+    //             create: [
+    //                 {
+    //                     startDate: today,
+    //                     endDate: today,
+    //                     title: "Robotics Meeting",
+    //                     code: 11111
+    //                 }
+    //             ]
+    //         }
+    //     }
+    // })
 }
 
 main()

@@ -46,14 +46,14 @@ const getAllEventsHandler = async (req: Hapi.Request, res: Hapi.ResponseToolkit)
 const createEventHandler = async (req: Hapi.Request, res: Hapi.ResponseToolkit) => {
     const { prisma } = req.server.app
     const payload = req.payload as AddEvent
-    console.log(payload)
     try {
         const event = await prisma.events.create({
             data: {
                 startDate: payload.startDate,
                 endDate: payload.endDate,
                 title: payload.title,
-                code: payload.code
+                code: payload.code,
+                description: payload.description
             }
         })
         return res.response(event).code(200)
