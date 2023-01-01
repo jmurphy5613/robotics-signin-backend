@@ -1,6 +1,11 @@
 import Boom from '@hapi/boom'
 import Hapi from '@hapi/hapi'
 
+//validator imports
+import { AddEventValidator, AddUserValidator } from '../utils/validators'
+//interface imports
+import { AddUser } from '../utils/interfaces'
+
 const usersPlugin = {
     name: 'app/users',
     dependencies: ['prisma'],
@@ -14,7 +19,10 @@ const usersPlugin = {
             {
                 method: 'POST',
                 path: '/users/create',
-                handler: createUserHandler
+                handler: createUserHandler,
+                options: {
+                    validate: AddEventValidator
+                }
             },
         ])
     }
@@ -34,7 +42,7 @@ const getAllUsersHandler = async (req: Hapi.Request, res: Hapi.ResponseToolkit) 
 
 const createUserHandler = async (req: Hapi.Request, res: Hapi.ResponseToolkit) => {
     const { prisma } = req.server.app
-    const body = req.headers
+    const body = req.payload as AddUser
 
     try {
         const create = await prisma.user.create({

@@ -7,3 +7,9 @@ export const AddEventValidator = Joi.object({
     code: Joi.number().required(),
     description: Joi.string().required()
 })
+
+export const AddUserValidator = Joi.object({
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    email: Joi.string().required()
+})

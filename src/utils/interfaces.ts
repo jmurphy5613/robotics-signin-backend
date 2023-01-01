@@ -5,3 +5,9 @@ export interface AddEvent {
     code: number,
     description: string
 }
+
+export interface AddUser {
+    firstName: string,
+    lastName: string,
+    email: string
+}
