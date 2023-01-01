@@ -89,8 +89,9 @@ const getUserByEmail = async (req: Hapi.Request, res: Hapi.ResponseToolkit) => {
 
 const registerForEventByIds = async (req: Hapi.Request, res: Hapi.ResponseToolkit) => {
     const { prisma } = req.server.app
-    const eventId = req.params.eventId
-    const userId = req.params.userId
+    const eventId = JSON.parse(req.params.eventId)
+    const userId = JSON.parse(req.params.userId)
+    console.log(eventId, userId)
 
     try {
         await prisma.user.update({
@@ -103,7 +104,7 @@ const registerForEventByIds = async (req: Hapi.Request, res: Hapi.ResponseToolki
                 }
             }
         })
-        res.response().code(200)
+        return res.response().code(200)
     } catch(err) {
         console.log(err)
         return Boom.badImplementation("could not register for event")
