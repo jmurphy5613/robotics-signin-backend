@@ -5,6 +5,7 @@ import eventsPlugin from './plugins/events'
 
 const server: Hapi.Server = Hapi.server({
     port: process.env.PORT || 3001,
+    host: "0.0.0.0",
     routes: {
         cors: true
     }
