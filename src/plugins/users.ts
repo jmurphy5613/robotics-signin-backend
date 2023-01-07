@@ -91,7 +91,6 @@ const registerForEventByIds = async (req: Hapi.Request, res: Hapi.ResponseToolki
     const { prisma } = req.server.app
     const eventId = JSON.parse(req.params.eventId)
     const userId = JSON.parse(req.params.userId)
-    console.log(eventId, userId)
 
     try {
         await prisma.user.update({

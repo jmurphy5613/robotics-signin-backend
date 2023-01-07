@@ -45,7 +45,11 @@ const getAllEventsHandler = async (req: Hapi.Request, res: Hapi.ResponseToolkit)
     const { prisma } = req.server.app
 
     try {
-        const events = await prisma.events.findMany({})
+        const events = await prisma.events.findMany({
+            include: {
+                attendees: true
+            }
+        })
         return res.response(events).code(200)
     } catch (err) {
         console.log(err)
@@ -78,7 +82,14 @@ const getEventById = async (req: Hapi.Request, res: Hapi.ResponseToolkit) => {
     const id = JSON.parse(req.params.id)
 
     try {
-        const event = await prisma.events.findFirstOrThrow({ where: { id: id } })
+        const event = await prisma.events.findFirstOrThrow({ 
+            where: { 
+                id: id 
+            }, 
+            include: { 
+                attendees: true 
+            }
+        })
         return res.response(event).code(200)
     } catch (err) {
         console.log(err)

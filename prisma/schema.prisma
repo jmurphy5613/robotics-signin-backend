@@ -17,7 +17,7 @@ model Events {
     title String
     code Int
     description String
-    attendees User[]
+    attendees User[] 
 }
 
 model User {
@@ -25,5 +25,5 @@ model User {
     firstName String
     lastName String
     email String @unique
-    eventsAttended Events[]
+    eventsAttended Events[] 
 }
