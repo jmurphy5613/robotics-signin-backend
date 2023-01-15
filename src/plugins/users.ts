@@ -44,7 +44,11 @@ const getAllUsersHandler = async (req: Hapi.Request, res: Hapi.ResponseToolkit) 
     const { prisma } = req.server.app
 
     try {
-        const users = await prisma.user.findMany({})
+        const users = await prisma.user.findMany({
+            include: {
+                eventsAttended: true
+            }
+        })
         return res.response(users).code(200)
     } catch(err) {
         console.log(err)
