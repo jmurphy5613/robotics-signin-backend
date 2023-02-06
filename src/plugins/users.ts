@@ -35,6 +35,11 @@ const usersPlugin = {
                 method: 'POST',
                 path: '/users/register-by-ids/{userId}/{eventId}',
                 handler: registerForEventByIds
+            },
+            {
+                method: 'POST',
+                path: '/users/unregister-by-ids/{userId}/{eventId}',
+                handler: unregisterForEventByIds
             }
         ])
     }
@@ -111,6 +116,29 @@ const registerForEventByIds = async (req: Hapi.Request, res: Hapi.ResponseToolki
     } catch(err) {
         console.log(err)
         return Boom.badImplementation("could not register for event")
+    }
+}
+
+const unregisterForEventByIds = async (req: Hapi.Request, res: Hapi.ResponseToolkit) => {
+    const { prisma } = req.server.app
+    const eventId = JSON.parse(req.params.eventId)
+    const userId = JSON.parse(req.params.userId)
+
+    try {
+        await prisma.user.update({
+            where: { id: userId },
+            data: {
+                eventsAttended: {
+                    disconnect: {
+                        id: eventId
+                    }
+                }
+            }
+        })
+        return res.response().code(200)
+    } catch(err) {
+        console.log(err)
+        return Boom.badImplementation("could not disconnect user")
     }
 }
 
