@@ -101,6 +101,8 @@ const registerForEventByIds = async (req: Hapi.Request, res: Hapi.ResponseToolki
     const eventId = JSON.parse(req.params.eventId)
     const userId = JSON.parse(req.params.userId)
 
+    console.log(`Sigin detected: User: ${userId}, Event: ${eventId} Time: ${Date.now()}`)
+
     try {
         await prisma.user.update({
             where: { id: userId },
